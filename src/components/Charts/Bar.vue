@@ -5,6 +5,7 @@
 <script>
 import echarts from 'echarts'
 import resize from './mixins/resize'
+import axios  from 'axios'
 
 export default {
   mixins: [resize],
@@ -28,9 +29,27 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      names:[],
+      values:[]
     }
   },
+  created() {
+  axios.get("http://localhost:8081/analysis/analyze1")
+ .then((response) => {
+    let res = response.data.data;
+    console.log(res);
+    res.forEach(item => {
+      this.names.push(item.name);
+      this.values.push(item.value);
+    });
+    // 数据更新后调用 setOptions 方法
+    this.setOptions();
+  })
+ .catch((error) => {
+    console.error("Axios error:", error);
+  });
+},
   mounted() {
     this.initCharts();
   },
@@ -41,28 +60,42 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
+
   methods: {
   initCharts() {
     this.chart = echarts.init(this.$el);
-    this.setOptions();
+    
   },
+
   setOptions() {
+    console.log("-----------");
+    console.log(this.names);
+    console.log("-----------");
     this.chart.setOption({
       title: {
         text: 'ECharts 入门示例'
       },
       tooltip: {},
       xAxis: {
-        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        data: this.names
       },
       yAxis: {},
       series: [{
         name: '销量',
         type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
+        data: this.values
       }]
     })
-  }
+  },
+
+},
+watch: {
+  options: {
+    handler(options) {
+      this.chart.setOption(this.options)
+    },
+    deep: true
+  },
 }
 }
 </script>
