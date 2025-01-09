@@ -2,6 +2,8 @@
 <div :id="id" :class="className" :style="{height:height,width:width}" />
 </template>
 
+    
+    
 <script>
 import echarts from 'echarts'
 import resize from './mixins/resize'
@@ -73,17 +75,49 @@ export default {
             console.log("-----------");
             this.chart.setOption({
                 title: {
-                    text: 'ECharts 入门示例'
+                    text: 'Referer of a Website',
+                    subtext: 'Fake Data',
+                    left: 'center'
                 },
-                tooltip: {},
-                xAxis: {
-                    data: this.names
+                tooltip: {
+                    trigger: 'item'
                 },
-                yAxis: {},
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
                 series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: this.values
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [{
+                            value: 1048,
+                            name: 'Search Engine'
+                        },
+                        {
+                            value: 735,
+                            name: 'Direct'
+                        },
+                        {
+                            value: 580,
+                            name: 'Email'
+                        },
+                        {
+                            value: 484,
+                            name: 'Union Ads'
+                        },
+                        {
+                            value: 300,
+                            name: 'Video Ads'
+                        }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
                 }]
             })
         },

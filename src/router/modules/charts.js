@@ -41,7 +41,14 @@ const chartsRouter = {
       component: () => import('@/views/charts/bar'),
       name: 'Bar ',
       meta: { title: 'BarChart', noCache: true }
+    },
+    {
+      path: 'pie',
+      component: () => import('@/views/charts/pie'),
+      name: 'Pie ',
+      meta: { title: 'PieChart', noCache: true }
     }
+    
   ]
 }
 
